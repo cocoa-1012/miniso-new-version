@@ -1,23 +1,24 @@
-import React from "react";
+import React from 'react';
+import styles from './storeCard.module.css';
 
-const StorePage = () => {
+const StoreCard = ({ image, title, text1, text2, timeText }) => {
   return (
-    <div style={{ backgroundColor: "#ebebeb", padding: "90px 0" }}>
-      <div className="container">
-        <h2
-          style={{
-            textAlign: "center",
-            fontSize: "42px",
-            marginBottom: "70px",
-          }}
-        >
-          Tiendas
-        </h2>
+    <div className={styles.wrapper}>
+      <div className={styles.card}>
+        <div className={styles.imageWrapper}>
+          <img variant='top' src={image} alt='' className={styles.image} />
+        </div>
 
-        <h2>Item</h2>
+        <div className={styles.content}>
+          <h4 className={styles.title}>{title}</h4>
+          <p className={styles.text}>
+            {text1} <br /> {text2}
+          </p>
+          <p className={`${styles.time} ${styles.text}`}>{timeText}</p>
+        </div>
       </div>
     </div>
   );
 };
 
-export default StorePage;
+export default StoreCard;
