@@ -1,19 +1,19 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import { addProductToCart } from "../../../redux/cartAction";
 const Product = ({ item }) => {
   const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector((state) => state.user);
 
   const addProduct = () => {
-    if (!isAuthenticated) {
-      toast.error("Para realizar una compra, Inicia Sesión primero");
-      return;
+    try {
+      dispatch(addProductToCart(item, 1));
+      toast.success("Product added successfully!");
+    } catch (error) {
+      toast.error("Product added failed!");
     }
-    dispatch(addProductToCart(item, 1, toast));
   };
 
   const imagen = item.url
@@ -30,7 +30,7 @@ const Product = ({ item }) => {
       <Title>{item.descripcion}</Title>
       <Price>Q.{item.precio}</Price>
 
-      <Button onClick={addProduct}>Agregar a carrito</Button>
+      <Button onClick={addProduct}>Add To cart</Button>
 
       {/*<Button>Agregar a Carrito</Button>*/}
     </Contenitrice>
@@ -128,12 +128,12 @@ const Price = styled.p`
   margin-bottom: 25px;
   font-weight: bold;
   font-size: 2rem;
-  color: #e71425;
 
   @media only screen and (max-width: 351px) {
     font-size: 1.2rem;
   }
 `;
+
 const Button = styled.button`
   padding: 0.5rem;
   font-family: inherit;
@@ -154,4 +154,5 @@ const Button = styled.button`
     cursor: pointer;
   }
 `;
+
 export default Product;

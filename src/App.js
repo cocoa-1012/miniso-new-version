@@ -14,9 +14,9 @@ import Cart from "./pages/Cart/Cart";
 import AccesoriosMaquillaje from "./pages/Categories/AccesoriosMaquillaje";
 import AlimentosyBebidas from "./pages/Categories/AlimentosyBebidas";
 import BolsasyAccesorios from "./pages/Categories/BolsasyAccesorios";
-import Cosmeticos from "./pages/Categories/Cosmeticos";
+import Cosmetics from "./pages/Categories/Cosmeticos";
 import CuidadoPersonal from "./pages/Categories/CuidadoPersonal";
-import Electronicos from "./pages/Categories/Electronicos";
+import Electronics from "./pages/Categories/Electronicos";
 import EstilodeVida from "./pages/Categories/EstilodeVida";
 import Juguetes from "./pages/Categories/Juguetes";
 import LibreriayPapeleria from "./pages/Categories/LibreriayPapeleria";
@@ -36,17 +36,17 @@ import ProductList from "./pages/ProductList/ProductList";
 import Register from "./pages/Register/Register";
 import Sale from "./pages/Sale";
 import ShopNow from "./pages/ShopNow";
+import StorePage from "./pages/Store/StorePage";
 import Stores from "./pages/Stores";
 import TheNew from "./pages/TheNew";
 
 const App = () => {
   // const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   // const [showAdminBoard, setShowAdminBoard] = useState(false);
-
   return (
     <Router>
       <ToastContainer
-        position='top-center'
+        position="top-center"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -58,88 +58,96 @@ const App = () => {
       />
       {/*<Announcement />*/}
       {/*<FirstNavigation />*/}
+
       <Header />
       <MainNavigation />
       <Switch>
-        <Route path='/' exact>
+        <Route path="/" exact>
           <HomePage />
         </Route>
-        <Route path='/lo-nuevo'>
+        <Route path="/lo-nuevo">
           <TheNew />
         </Route>
-        <Route path='/colecciones'>
+        <Route path="/colecciones">
           <Collections />
         </Route>
-        <Route path='/sale'>
+        <Route path="/sale">
           <Sale />
         </Route>
-        <Route path='/tiendas'>
+        <Route path="/tiendas">
           <Stores />
         </Route>
-        <Route path='/contactanos'>
+        <Route path="/viewstores">
+          <Stores viewStore />
+        </Route>
+        <Route path="/contactanos">
           <ContactUs />
         </Route>
-        <Route path='/profile'>
+        <Route path="/profile">
           <Profile />
         </Route>
-        <Route path='/comprar-ahora'>
+        <Route path="/comprar-ahora">
           <ShopNow />
         </Route>
         {/*Categories*/}
-        <Route path='/accesorios-de-maquillaje'>
+        <Route path="/accesorios-de-maquillaje">
           <AccesoriosMaquillaje />
         </Route>
-        <Route path='/alimentos-y-bebidas'>
+        <Route path="/alimentos-y-bebidas">
           <AlimentosyBebidas />
         </Route>
-        <Route path='/bolsas-y-accesorios'>
+        <Route path="/bolsas-y-accesorios">
           <BolsasyAccesorios />
         </Route>
-        <Route path='/cosmeticos'>
-          <Cosmeticos />
+        <Route path="/cosmeticos">
+          <Cosmetics />
         </Route>
-        <Route path='/cuidado-personal'>
+        <Route path="/cuidado-personal">
           <CuidadoPersonal />
         </Route>
-        <Route path='/electronicos'>
-          <Electronicos />
+        <Route path="/electronicos">
+          <Electronics />
         </Route>
-        <Route path='/estilo-de-vida'>
+        <Route path="/estilo-de-vida">
           <EstilodeVida />
         </Route>
-        <Route path='/juguetes'>
+        <Route path="/juguetes">
           <Juguetes />
         </Route>
-        <Route path='/libreria-y-papeleria'>
+        <Route path="/libreria-y-papeleria">
           <LibreriayPapeleria />
         </Route>
-        <Route path='/perfumes-y-aromatizantes'>
+        <Route path="/perfumes-y-aromatizantes">
           <PerfumesyAromatizantes />
         </Route>
-        <Route path='/regalos-gratis'>
+        <Route path="/regalos-gratis">
           <RegalosGratis />
         </Route>
-        <Route path='/textil'>
+        <Route path="/textil">
           <Textil />
         </Route>
-        <Route path='/productoslista/:category'>
+        <Route path="/productoslista/:category">
           <ProductList />
         </Route>
-        <Route path='/product/:id'>
+        <Route path="/product/:id">
           <Product />
         </Route>
-        <Route path='/cart'>
+        <Route path="/cart">
           <Cart />
         </Route>
-        <Route path='/payment'>
+        <Route path="/payment">
           <Payment />
         </Route>
-        <Route path='/login'>
+        <Route path="/login">
           <Login />
           {/*{user ? <Redirect to='/' /> : <Login />}*/}
         </Route>
-        <Route path='/register'>
+        <Route path="/register">
           <Register />
+          {/*{user ? <Redirect to='/' /> : <Register />}*/}
+        </Route>
+        <Route path="/store">
+          <StorePage />
           {/*{user ? <Redirect to='/' /> : <Register />}*/}
         </Route>
       </Switch>

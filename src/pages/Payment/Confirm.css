@@ -1,6 +1,10 @@
 @font-face {
-  font-family: 'Avenir-Medium';
-  src: url('../../assets/font/Avenir-Medium.otf');
+  font-family: "Avenir-Medium";
+  src: url("../../assets/font/Avenir-Medium.otf");
+}
+
+.confirmButton {
+  padding-left: 140px;
 }
 
 .btn1:enabled {

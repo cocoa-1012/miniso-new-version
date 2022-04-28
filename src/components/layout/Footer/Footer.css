@@ -19,34 +19,36 @@
 .paraGraph {
   font-size: 13.5px;
 }
-.category_list li {
-  margin-top: 8x;
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-.category_list li a {
-  transition: all 0.4s;
-}
-.category_list li a:hover {
-  color: #e71425;
-}
-
-.category_list a {
-  color: white;
-  text-decoration: none;
-}
-
-.hover-red:hover {
-  color: #e71425;
-}
-.contactDiv p {
-  font-size: 14px;
-  transition: all 0.4s;
-}
-
-.socialIcons li a i {
-  font-size: 25px;
-}
+  .category_list li {
+    margin-top: 8x;
+    margin-bottom: 5px;;
+    font-size: 14px;
+  }
+  .category_list li a {
+    transition: all 0.4s;
+  }
+  .category_list li a:hover {
+    color: #e71425;
+  }
+  
+  .category_list a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .hover-red:hover {
+    color: #e71425;
+  }
+  .contactDiv p {
+    font-size: 14px;
+    transition: all 0.4s;
+  }
+  .socialIcons {
+    margin-top: 20px;
+  }
+  .socialIcons li a i {
+    font-size: 25px;
+  }
 /*MEDIAQUERIES*/
 
 @media only screen and (max-width: 1920px) {

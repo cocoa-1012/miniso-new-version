@@ -10,9 +10,9 @@ a.link {
   color: #fff;
 }
 
-/*.daLink {
+.daLink {
   display: none;
-}*/
+}
 
 .btn {
   color: #fff;
@@ -42,14 +42,14 @@ a.link {
 }
 
 @media only screen and (max-width: 898px) {
-  /*  .daLink {
+  .daLink {
     display: list-item;
     font-size: 12.5px;
     justify-content: left;
     padding-left: 18px;
     text-decoration: none;
     color: #000000;
-  }*/
+  }
 }
 
 @media only screen and (max-width: 882px) {

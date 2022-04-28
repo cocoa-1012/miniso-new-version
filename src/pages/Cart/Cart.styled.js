@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Contenitrice = styled.div``;
 export const Wrapper = styled.div`
@@ -20,7 +20,6 @@ export const Top = styled.div`
 export const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
 `;
 export const Info = styled.div`
   flex: 3;
@@ -30,24 +29,11 @@ export const Product = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 5px;
-
-  @media (max-width: 500px) {
-    flex-direction: column;
-    align-items: start;
-    border: 1px solid #0003;
-    padding: 10px;
-    border-radius: 3px;
-    margin-bottom: 20px;
-  }
 `;
 
 export const ProductDetail = styled.div`
   flex: 2;
   display: flex;
-  @media (max-width: 500px) {
-    flex-direction: column;
-    align-items: center;
-  }
 `;
 
 export const Image = styled.img`
@@ -71,20 +57,12 @@ export const PriceDetail = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  @media (max-width: 500px) {
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-  }
 `;
 
 export const ProductAmountContainer = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-  @media (max-width: 500px) {
-    margin: 0;
-  }
 `;
 
 export const ProductAmount = styled.div`
@@ -119,8 +97,8 @@ export const SummaryItem = styled.div`
   margin: 30px 0px;
   display: flex;
   justify-content: space-between;
-  font-weight: ${(props) => props.type === "total" && "500"};
-  font-size: ${(props) => props.type === "total" && "24px"};
+  font-weight: ${(props) => props.type === 'total' && '500'};
+  font-size: ${(props) => props.type === 'total' && '24px'};
 `;
 
 export const SummaryItemText = styled.span``;

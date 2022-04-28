@@ -1,51 +1,36 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import ReactHelmet from "../../Seo/ReactHelmet";
-import AddressForm from "./AddressForm";
-import OrderHistory from "./OrderHistory";
+import React from "react";
+// import AuthService from "../../../services/auth.service";
 import classes from "./Profile.module.css";
 
-const dataShow = false;
 const Profile = () => {
-  const [formShow, setFromShow] = useState(false);
+  // const currentUser = AuthService.getCurrentUser();
+  //   const currentUsername = AuthService.getCurrentUsername();
+
   return (
     <div className="container">
-      <ReactHelmet title={"Profile"} />
       <h1 className={classes.Title}>Hola Bienvenido a Miniso</h1>
-      {dataShow && (
-        <>
-          <div className="text-center">
-            <Button onClick={() => setFromShow((prev) => !prev)}>
-              Crear una Dirección
-            </Button>
-          </div>
-          {formShow && <AddressForm setFromShow={setFromShow} />}
-        </>
-      )}
-      <OrderHistory />
+      {/*<header className='jumbotron'>
+        <h3>
+          <strong>Nombre de Usuario{currentUsername}</strong> Profile
+        </h3>
+  </header>*/}
+      {/* <p>
+        <strong>Token:</strong> {currentUser.accessToken.substring(0, 20)} ...{" "}
+        {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
+      </p>
+      <p>
+        <strong>Id:</strong> {currentUser.id}
+      </p>
+      <p>
+        <strong>Email:</strong> {currentUser.email}
+      </p>
+      <strong>Authorities:</strong>
+      <ul>
+        {currentUser.roles &&
+          currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
+        </ul>*/}
     </div>
   );
 };
 
 export default Profile;
-
-const Button = styled.button`
-  padding: 0.5rem;
-  font-family: inherit;
-  font-weight: bold;
-  font-size: 1rem;
-  margin: 1rem;
-  margin-top: 0;
-  background-color: #e71425;
-  color: #ffffff;
-  border: 2px solid #e71425;
-  border-radius: 4px;
-  transition: background 200ms ease-in, color 200ms ease-in;
-
-  &:hover {
-    background-color: transparent;
-    border: 2px solid #e71425;
-    color: #e71425;
-    cursor: pointer;
-  }
-`;

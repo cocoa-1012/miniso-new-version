@@ -1,16 +1,15 @@
-import React, { useState, useRef } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useRef, useState } from "react";
+import CheckButton from "react-validation/build/button";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
-import "./Register.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import isEmail from "validator/lib/isEmail";
 import AuthService from "../../services/auth.service";
-
+import "./Register.css";
 const required = (value) => {
   if (!value) {
     return (
-      <div className='alet alert-danger' role='alert'>
+      <div className="alet alert-danger" role="alert">
         Este campo es requerido!
       </div>
     );
@@ -20,27 +19,27 @@ const required = (value) => {
 const validEmail = (value) => {
   if (!isEmail(value)) {
     return (
-      <div className='alert alert-danger' role='alert'>
+      <div className="alert alert-danger" role="alert">
         This is not a valid email.
       </div>
     );
   }
 };
 
-const vusername = (value) => {
+const validateUsername = (value) => {
   if (value.length < 3 || value.length > 20) {
     return (
-      <div className='alert alert-danger' role='alert'>
+      <div className="alert alert-danger" role="alert">
         The username must be between 3 and 20 characters.
       </div>
     );
   }
 };
 
-const vpassword = (value) => {
+const validatePassword = (value) => {
   if (value.length < 6 || value.length > 40) {
     return (
-      <div className='alert alert-danger' role='alert'>
+      <div className="alert alert-danger" role="alert">
         The password must be between 6 and 40 characters.
       </div>
     );
@@ -51,8 +50,8 @@ const Register = (props) => {
   const form = useRef();
   const checkBtn = useRef();
 
-  const [names, setNames] = useState("");
-  const [lastname, setLastName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [nit, setNit] = useState("");
@@ -60,59 +59,14 @@ const Register = (props) => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
-  const [successful, setSuccessful] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [message, setMessage] = useState("");
-
-  const onChangeNames = (e) => {
-    const names = e.target.value;
-    setNames(names);
-  };
-
-  const onChangeLastName = (e) => {
-    const lastname = e.target.value;
-    setLastName(lastname);
-  };
-
-  const onChangeEmail = (e) => {
-    const email = e.target.value;
-    setEmail(email);
-  };
-
-  const onChangeNit = (e) => {
-    const nit = e.target.value;
-    setNit(nit);
-  };
-
-  const onChangeDui = (e) => {
-    const dui = e.target.value;
-    setDui(dui);
-  };
-
-  const onChangePhone = (e) => {
-    const phone = e.target.value;
-    setPhone(phone);
-  };
-
-  const onChangeAddress = (e) => {
-    const address = e.target.value;
-    setAddress(address);
-  };
-
-  const onChangeUsername = (e) => {
-    const username = e.target.value;
-    setUsername(username);
-  };
-
-  const onChangePassword = (e) => {
-    const password = e.target.value;
-    setPassword(password);
-  };
 
   const handleRegister = (e) => {
     e.preventDefault();
 
     setMessage("");
-    setSuccessful(false);
+    setIsSuccess(false);
 
     form.current.validateAll();
 
@@ -120,8 +74,8 @@ const Register = (props) => {
       AuthService.register(
         username,
         password,
-        names,
-        lastname,
+        firstName,
+        lastName,
         email,
         nit,
         dui,
@@ -130,31 +84,29 @@ const Register = (props) => {
       ).then(
         (response) => {
           setMessage(response.data.message);
-          setSuccessful(true);
+          setIsSuccess(true);
         },
         (error) => {
           const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+            error?.response?.data?.message ||
+            error?.message ||
+            error?.toString();
 
           setMessage(resMessage);
-          setSuccessful(false);
+          setIsSuccess(false);
         }
       );
     }
   };
 
   return (
-    <div className='container'>
-      <div className='col-md-12'>
-        <div className='card card-container'>
-          <div className='Icon'>
-            <img src='./img/logo.png' alt='' height={70} width={70} />
+    <div className="container">
+      <div className="col-md-12">
+        <div className="card card-container">
+          <div className="Icon">
+            <img src="./img/logo.png" alt="" height={70} width={70} />
           </div>
-          <div className='Context'>
+          <div className="Context">
             <h3>Crea una Cuenta </h3>
           </div>
           <p>Completa el siguiente formulario.</p>
@@ -164,122 +116,122 @@ const Register = (props) => {
             className='profile-img-card'
           />*/}
           <Form onSubmit={handleRegister} ref={form}>
-            {!successful && (
+            {!isSuccess && (
               <div>
-                <div className='form-group'>
-                  <label htmlFor='names'>Nombre</label>
+                <div className="form-group">
+                  <label htmlFor="names">Nombre</label>
                   <Input
-                    type='text'
-                    className='form-control'
-                    name='names'
-                    value={names}
-                    onChange={onChangeNames}
+                    type="text"
+                    className="form-control"
+                    name="names"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                     validations={[required]}
                   />
                 </div>
-                <div className='form-group'>
-                  <label htmlFor='lastname'>Apellido</label>
+                <div className="form-group">
+                  <label htmlFor="lastname">Apellido</label>
                   <Input
-                    type='text'
-                    className='form-control'
-                    name='lastname'
-                    value={lastname}
-                    onChange={onChangeLastName}
+                    type="text"
+                    className="form-control"
+                    name="lastname"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                     validations={[required]}
                   />
                 </div>
-                <div className='form-group'>
-                  <label htmlFor='email'>Email</label>
+                <div className="form-group">
+                  <label htmlFor="email">Email</label>
                   <Input
-                    type='text'
-                    className='form-control'
-                    name='email'
+                    type="text"
+                    className="form-control"
+                    name="email"
                     value={email}
-                    onChange={onChangeEmail}
+                    onChange={(e) => setEmail(e.target.value)}
                     validations={[required, validEmail]}
                   />
                 </div>
-                <div className='form-group'>
-                  <label htmlFor='nit'>Nit</label>
+                <div className="form-group">
+                  <label htmlFor="nit">Nit</label>
                   <Input
-                    type='text'
-                    className='form-control'
-                    name='nit'
+                    type="text"
+                    className="form-control"
+                    name="nit"
                     value={nit}
-                    onChange={onChangeNit}
+                    onChange={(e) => setNit(e.target.value)}
                     validations={[required]}
                   />
                 </div>
-                <div className='form-group'>
-                  <label htmlFor='dui'>DPI</label>
+                <div className="form-group">
+                  <label htmlFor="dui">DPI</label>
                   <Input
-                    type='text'
-                    className='form-control'
-                    name='dui'
+                    type="text"
+                    className="form-control"
+                    name="dui"
                     value={dui}
-                    onChange={onChangeDui}
+                    onChange={(e) => setDui(e.target.value)}
                     validations={[required]}
                   />
                 </div>
-                {/* <div className='form-group'>
-                  <label htmlFor='phone'>Número de Teléfono</label>
+                <div className="form-group">
+                  <label htmlFor="phone">Número de Teléfono</label>
                   <Input
-                    type='tel'
-                    className='form-control'
-                    name='phone'
+                    type="tel"
+                    className="form-control"
+                    name="phone"
                     value={phone}
-                    onChange={onChangePhone}
+                    onChange={(e) => setPhone(e.target.value)}
                     validations={[required]}
                   />
                 </div>
-                <div className='form-group'>
-                  <label htmlFor='address'>Dirección</label>
+                <div className="form-group">
+                  <label htmlFor="address">Dirección</label>
                   <Input
-                    type='text'
-                    className='form-control'
-                    name='address'
+                    type="text"
+                    className="form-control"
+                    name="address"
                     value={address}
-                    onChange={onChangeAddress}
+                    onChange={(e) => setAddress(e.target.value)}
                     validations={[required]}
                   />
-                </div> */}
-                <div className='form-group'>
-                  <label htmlFor='username'>Username</label>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="username">Username</label>
                   <Input
-                    type='text'
-                    className='form-control'
-                    name='username'
+                    type="text"
+                    className="form-control"
+                    name="username"
                     value={username}
-                    onChange={onChangeUsername}
-                    validations={[required, vusername]}
+                    onChange={(e) => setUsername(e.target.value)}
+                    validations={[required, validateUsername]}
                   />
                 </div>
 
-                <div className='form-group'>
-                  <label htmlFor='password'>Password</label>
+                <div className="form-group">
+                  <label htmlFor="password">Password</label>
                   <Input
-                    type='password'
-                    className='form-control'
-                    name='password'
+                    type="password"
+                    className="form-control"
+                    name="password"
                     value={password}
-                    onChange={onChangePassword}
-                    validations={[required, vpassword]}
+                    onChange={(e) => setPassword(e.target.value)}
+                    validations={[required, validatePassword]}
                   />
                 </div>
-                <div className='form-group'>
-                  <button className='bTnPropertyRegister btn-block '>
+                <div className="form-group">
+                  <button className="bTnPropertyRegister btn-block ">
                     Enviar
                   </button>
                 </div>
               </div>
             )}
             {message && (
-              <div className='form-group'>
+              <div className="form-group">
                 <div
                   className={
-                    successful ? "alert alert-success" : "alert alert-danger"
+                    isSuccess ? "alert alert-success" : "alert alert-danger"
                   }
-                  role='alert'
+                  role="alert"
                 >
                   {message}
                 </div>

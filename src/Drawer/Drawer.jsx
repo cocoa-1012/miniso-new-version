@@ -1,21 +1,26 @@
-import React from "react";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { IconButton } from "@mui/material";
 import Box from "@mui/material/Box";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-//import styled from "styled-components";
-import { Link } from "react-router-dom";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 //import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
-import { IconButton } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import axios from "axios";
-//import { useHistory } from "react-router";
+import React, { useCallback, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 //import MenuIcon from "@mui/icons-material/Menu";
-
-//import { Link } from "react-router-dom";
 import classes from "./Drawer.module.css";
 
+const CategoryItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  transition: all 0.5s;
+  &:hover {
+    color: blue;
+  }
+`;
 const Drawer = () => {
   const [state, setState] = React.useState(false);
   const toggleDrawer = (open) => (event) => {
@@ -48,33 +53,35 @@ const Drawer = () => {
         onClose={toggleDrawer(false)}
         onClick={toggleDrawer(false)}
         PaperProps={{
-          sx: { width: "200px" },
+          sx: { width: "300px" },
         }}
       >
         <div>
-          <Box className={classes.diBox} textAlign='left' p={1}>
+          <Box className={classes.diBox} textAlign="left" p={1}>
             <h3>Categorías</h3>
           </Box>
           <List>
-            {/*            <Link to='/login' className={classes.daLink}>
+            <Link to="/login" className={classes.daLink}>
               <div className={classes.MenuItem}>INICIAR SESIÓN</div>
             </Link>
-            <Link to='/register' className={classes.daLink}>
+            <Link to="/register" className={classes.daLink}>
               <div className={classes.MenuItem}>REGISTRARSE</div>
-      </Link>*/}
+            </Link>
 
             <ListItem>
               <ListItemText>
-                {" "}
                 {categories.map((cat) => (
                   <Link
                     to={`/productoslista/${cat.codCatUno}`}
                     className={classes.link}
+                    key={cat.codCatUno}
                   >
-                    <div>{cat.descripcion}</div>
-
-                    {/*<span>{cat.descripcion}</span>*/}
-                    <span className='arrow'></span>
+                    <CategoryItem>
+                      <span>{cat.descripcion}</span>
+                      <span className="arrow">
+                        <ArrowRightAltIcon />
+                      </span>
+                    </CategoryItem>
                   </Link>
                 ))}
               </ListItemText>

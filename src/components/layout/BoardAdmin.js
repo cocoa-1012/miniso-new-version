@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import EventBus from "../common/EventBus";
+import React, { useState, useEffect } from "react";
+
 import UserService from "../services/user.service";
+import EventBus from "../common/EventBus";
 
 const BoardAdmin = () => {
   const [content, setContent] = useState("");
@@ -12,15 +13,15 @@ const BoardAdmin = () => {
       },
       (error) => {
         const _content =
-          (error?.response &&
-            error?.response.data &&
-            error?.response.data.message) ||
-          error?.message ||
-          error?.toString();
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
 
         setContent(_content);
 
-        if (error?.response && error?.response?.status === 401) {
+        if (error.response && error.response.status === 401) {
           EventBus.dispatch("logout");
         }
       }
@@ -28,8 +29,8 @@ const BoardAdmin = () => {
   }, []);
 
   return (
-    <div className="container">
-      <header className="jumbotron">
+    <div className='container'>
+      <header className='jumbotron'>
         <h3>{content}</h3>
       </header>
     </div>

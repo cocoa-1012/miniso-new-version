@@ -2,7 +2,6 @@ import { Container } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import {
   removeProductFromCart,
   updateCartFromServer,
@@ -37,7 +36,7 @@ import {
 } from "./Cart.styled";
 const Cart = () => {
   const { total } = useSelector((state) => state.cart);
-  const { isAuthenticated } = useSelector((state) => state.user);
+
   const cartProductsList = useSelector((state) => state.cart.products);
   const dispatch = useDispatch();
   let username = localStorage.getItem("username");
@@ -45,10 +44,8 @@ const Cart = () => {
   }
 
   useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(updateCartFromServer());
-    }
-  }, [dispatch, isAuthenticated]);
+    dispatch(updateCartFromServer());
+  }, [dispatch]);
 
   const handleClick = (codInt, barra) => {
     dispatch(removeProductFromCart(codInt, barra));
@@ -71,6 +68,13 @@ const Cart = () => {
             >
               <button className={classes.bTnProperty}>Seguir Comprando</button>
             </Link>
+            {/*<TopTexts>
+              <TopText>Canasta de compras(2)</TopText>
+              <TopText>Tu lista (0)</TopText>
+            </TopTexts>*/}
+            {/*<button className={classes.TopbTnRightProperty} type='filled'>
+              Pagar Ahora
+          </button>*/}
           </Top>
           <Bottom>
             <Info>
@@ -92,6 +96,10 @@ const Cart = () => {
                           <b>Barra: </b>
                           {product.productosPkDto.barra}
                         </BarraId>
+                        {/*<ProductColor color='black' />
+                            <ProductSize>
+                              <b>Size:</b>37.5
+                            </ProductSize>*/}
                       </Details>
                     </ProductDetail>
                     <PriceDetail>
@@ -118,7 +126,7 @@ const Cart = () => {
                   </Product>
                 ))
               ) : (
-                <h2>Carrito Vacío</h2>
+                <h2>Cart is empty</h2>
               )}
               <Hr />
             </Info>
@@ -132,29 +140,9 @@ const Cart = () => {
                 <SummaryItemText>Total</SummaryItemText>
                 <SummaryItemPrice>Q. {total}</SummaryItemPrice>
               </SummaryItem>
-
-              {isAuthenticated ? (
-                cartProductsList.length > 0 ? (
-                  <Link to="/payment" className={classes.link2}>
-                    <button className={classes.bTnProperty}>
-                      Comprar Ahora
-                    </button>
-                  </Link>
-                ) : (
-                  <>
-                    <Link to="#" className={classes.link2}>
-                      <button
-                        className={classes.bTnProperty}
-                        onClick={() => {
-                          toast.error("Cart is empty");
-                        }}
-                      >
-                        Comprar Ahora
-                      </button>
-                    </Link>
-                  </>
-                )
-              ) : null}
+              <Link to="/payment" className={classes.link2}>
+                <button className={classes.bTnProperty}>Comprar Ahora</button>
+              </Link>
             </Summary>
           </Bottom>
         </Wrapper>

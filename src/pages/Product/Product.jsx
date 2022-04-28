@@ -3,14 +3,30 @@ import { Add, Remove } from "@mui/icons-material";
 import { Container } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import ReactHelmet from "../../components/Seo/ReactHelmet";
 import { addProductToCart } from "../../redux/cartAction";
 import classes from "./Product.module.css";
 //import sushi2 from "../../assets/card/sushi2.jpeg";
 //import sushi3 from "../../assets/card/sushi3.jpeg";
+// CHECK IF IMAGE EXISTS
+function checkIfImageExists(url, callback) {
+  const img = new Image();
+  img.src = url;
+
+  if (img.complete) {
+    callback(true);
+  } else {
+    img.onload = () => {
+      callback(true);
+    };
+
+    img.onerror = () => {
+      callback(false);
+    };
+  }
+}
 
 const Product = () => {
   const location = useLocation();
@@ -18,32 +34,12 @@ const Product = () => {
   const barra = location.pathname.split("/")[3];
 
   const [product, setProduct] = useState({});
-  const [productosPkDto, setProductosPkDto] = useState({});
 
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
   const [thumbsRefList, setThumbsRefList] = React.useState([]);
   const [indexPhoto, setIndexPhoto] = useState(2);
   const [photos, setPhotos] = useState([]);
-
-  const { isAuthenticated } = useSelector((state) => state.user);
-
-  function checkIfImageExists(url, callback) {
-    const img = new Image();
-    img.src = url;
-
-    if (img.complete) {
-      callback(true);
-    } else {
-      img.onload = () => {
-        callback(true);
-      };
-
-      img.onerror = () => {
-        callback(false);
-      };
-    }
-  }
 
   useEffect(() => {
     if (Object.keys(product).length > 0) {
@@ -61,26 +57,36 @@ const Product = () => {
     return () => {};
   }, [product]);
 
-  useEffect(
-    () => {
-      const getProduct = async () => {
-        try {
-          const res = await axios.get(
-            pk && barra
-              ? `http://3.16.73.177:9080/public/products/pk?codeInt=${pk}&barra=${barra}`
-              : ""
-          );
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await axios.get(
+          pk && barra
+            ? `http://3.16.73.177:9080/public/products/pk?codeInt=${pk}&barra=${barra}`
+            : ""
+        );
 
-          setProduct(res.data.body);
-          setProductosPkDto(res.data.body.productosPkDto);
-        } catch {}
-      };
-      getProduct();
-      setIndexPhoto(0);
-    },
-    [pk],
-    [barra]
-  );
+        setProduct(res.data.body);
+      } catch {}
+    };
+    getProduct();
+    setIndexPhoto(0);
+  }, [pk, barra]);
+
+  /*  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get("/products/find/" + pk);
+        setProduct(res.data);
+      } catch {}
+    };
+    getProduct();
+  }, [id]);*/
+  /*
+  const state = (index) => ({
+    index:index
+  });
+*/
 
   const increaseQuantity = () => {
     setQuantity((prev) => prev + 1);
@@ -97,34 +103,25 @@ const Product = () => {
       images[i].className = images[i].className.replace("active", "");
     }
     images[index].className = "active";
+    // USAGE
   };
 
   const handleClick = () => {
-    if (!isAuthenticated) {
-      toast.error("Para realizar una compra, Inicia Sesión primero");
-      return;
-    }
     toast.success("Product added to cart");
     dispatch(addProductToCart(product, quantity));
   };
 
-  let history = useHistory();
+  const componentDidMount = () => {
+    const { index } = this.state;
+    thumbsRefList.current.children[index].className = "active";
+  };
 
   return (
     <Container>
-      <ReactHelmet
-        title={product.descripcion}
-        description={product.descripcion}
-      >
-        <meta name='price' content={product.precio} />
-      </ReactHelmet>
-      <button className={classes.bTnPropertyBack} onClick={history.goBack}>
-        Atrás
-      </button>
       <div className={classes.Contenitrice}>
         <div className={classes.Wrapper}>
           <div className={classes.ImgContainer}>
-            <img className={classes.Image} src={photos[indexPhoto]} />
+            <img className={classes.Image} src={photos[indexPhoto]} alt="" />
           </div>
           <div className={classes.InfoContainer}>
             <div className={classes.Row}>
@@ -134,8 +131,6 @@ const Product = () => {
             </div>
             <hr style={{ color: "#999999", height: "1px" }} />
             <span className={classes.Price}>Q {product.precio}</span>
-            <hr style={{ color: "#999999", height: "1px" }} />
-            <span className={classes.Title}> {productosPkDto.barra}</span>
             {/*<p>{item.content}</p>*/}
             <hr style={{ color: "#999999", height: "1px" }} />
             {/*         <FilterContainer>
@@ -155,7 +150,7 @@ const Product = () => {
                 <FilterSizeOption>XL</FilterSizeOption>
               </FilterSize>
             </Filter>
-</FilterContainer>*/}
+          </FilterContainer>*/}
             <div className={classes.AddContainer}>
               <div className={classes.AmountContainer}>
                 <Remove
@@ -172,8 +167,8 @@ const Product = () => {
               {photos.map((img, index) => (
                 <img
                   src={img}
-                  alt=''
-                  key={index}
+                  alt=""
+                  key={img}
                   onClick={() => handleTab(index)}
                 />
               ))}

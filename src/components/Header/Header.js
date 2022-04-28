@@ -1,57 +1,83 @@
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { Container } from "@mui/material";
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { Container } from '@mui/material';
 //MATERIAL-UI FIRSTNAVIGATIONBAR
-import Badge from "@mui/material/Badge";
-import "bootstrap/dist/css/bootstrap.min.css";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import Badge from '@mui/material/Badge';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   //Routes,
   Link,
-} from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
-import classes from "../../FirstNavigation.module.css";
-import { clear } from "../../redux/cartRedux";
-import { loginSuccess } from "../../redux/userRedux";
-import AuthService from "../../services/auth.service";
+} from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import EventBus from '../../common/EventBus';
+import classes from '../../FirstNavigation.module.css';
+import AuthService from '../../services/auth.service';
 
 const Header = () => {
+  // const [showModeratorBoard, setShowModeratorBoard] = useState(false);
+  // const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [currentUsername, setCurrentUsername] = useState(undefined);
   const quantity = useSelector((state) => state.cart.quantity);
 
-  const { currentUser, isAuthenticated } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const logOut = (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    const user = AuthService.getCurrentUsername();
+
+    if (user) {
+      setCurrentUsername(user);
+      //  setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
+      //  setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+    }
+
+    EventBus.on('logout', () => {
+      logOut();
+    });
+
+    return () => {
+      EventBus.remove('logout');
+    };
+  }, []);
+
+  const logOut = () => {
     AuthService.logout();
-    dispatch(loginSuccess({}));
-    dispatch(clear());
+    //   setShowModeratorBoard(false);
+    //   setShowAdminBoard(false);
+    setCurrentUsername(undefined);
   };
   return (
     <div>
-      {" "}
+      {' '}
       <header className={classes.header}>
         <Container>
           <div className={classes.container_bar}>
             <div className={classes.wrapper}>
               <div className={classes.left}>
                 <div className={classes.logo}>
-                  <Link to="/">
-                    <img src="/img/logo.png" alt="MINISO" />
+                  <Link to='/'>
+                    <img
+                      src='/img/logo.png'
+                      alt='MINISO'
+                      /*height={55}
+                width={55}*/
+                    />
                   </Link>
                 </div>
               </div>
-              <div className={classes.center}></div>
+              <div className={classes.center}>
+                {/*<div className={classes.searchContainer}>
+          <input className={classes.input}></input>
+          <SearchIcon style={{ color: "gray", fontSize: 16 }} />
+</div>*/}
+              </div>
               <div className={classes.right}>
-                {isAuthenticated ? (
+                {currentUsername ? (
                   <div className={classes.specialLinks}>
-                    <Link to={"/profile"} className={classes.link}>
-                      <div className={classes.MenuItem}>
-                        {currentUser.user_name}
-                      </div>
+                    <Link to={'/profile'} className={classes.link}>
+                      <div className={classes.MenuItem}>{currentUsername}</div>
                     </Link>
                     <div className={`nav-item ${classes.logoutButton}`}>
                       <Link
-                        to="/login"
+                        to='/login'
                         className={classes.MenuItem}
                         onClick={logOut}
                       >
@@ -61,27 +87,21 @@ const Header = () => {
                   </div>
                 ) : (
                   <div className={classes.specialLinks}>
-                    <Link to="/login" className={classes.linkS}>
+                    <Link to='/login' className={classes.link}>
                       <div className={classes.MenuItem}>INICIAR SESIÓN</div>
                     </Link>
-                    <Link to="/register" className={classes.linkS}>
+                    <Link to='/register' className={classes.link}>
                       <div className={classes.MenuItem}>REGISTRARSE</div>
-                    </Link>
-                    <Link to="/login" className={classes.linkResp}>
-                      <i class="fa-solid fa-circle-user"></i>
-                    </Link>
-                    <Link to="/register" className={classes.linkResp}>
-                      <i class="fa-solid fa-right-to-bracket"></i>
                     </Link>
                   </div>
                 )}
-                <Link to="/cart">
+                <Link to='/cart'>
                   <div className={classes.MenuItem}>
                     <Badge
-                      badgeContent={isAuthenticated ? quantity : 0}
-                      color="error"
+                      badgeContent={currentUsername ? quantity : 0}
+                      color='error'
                     >
-                      <ShoppingCartOutlinedIcon color="primary" />
+                      <ShoppingCartOutlinedIcon color='primary' />
                     </Badge>
                   </div>
                 </Link>

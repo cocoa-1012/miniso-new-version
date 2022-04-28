@@ -1,49 +1,37 @@
-import { Container, Pagination } from "@mui/material";
+import { Container } from "@mui/material";
 import axios from "axios";
-import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import usePagination from "./Pagination";
-//import CustomPagination from "../Pagination/CustomPagination";
+import CustomPagination from "../Pagination/CustomPagination";
 import Product from "./Product";
 
-const Products = ({ cat, filters, filtersData, sort }) => {
+const Products = ({ cat, filters, sort }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [products, setProducts] = useState([]);
   const [formateProducts, setFormateProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [totalRows, setTotalRows] = useState(1);
-  const [count, setCount] = useState(1);
+
   const getProducts = useCallback(
     async (currentPage) => {
-      const filterDataTo = Object.entries(filtersData)
-        .filter(([key, value]) => !!value)
-        .map(([key, value]) => `${key}=${value}`)
-        .join("&");
-      console.log(filterDataTo);
       const res = await axios.get(
         cat
-          ? `http://3.16.73.177:9080/public/products/size/15/page/${currentPage}?category=${cat}&${filterDataTo}`
+          ? `http://3.16.73.177:9080/public/products/size/15/page/${currentPage}?category=${cat}`
           : "http://3.16.73.177:9080/public/products/size/15/page/0?category=01",
         {
           crossDomain: true,
         }
       );
       setProducts(res.data.content);
-      setTotalRows(res.data.totalElements);
-      setCount(res.data.totalPages);
     },
-    [cat, filtersData]
+    [cat]
   );
 
   useEffect(() => {
     getProducts(currentPage);
   }, [currentPage, getProducts]);
 
-  const _DATA = usePagination(products, 12);
-
-  const handlePageChange = (e, p) => {
-    setCurrentPage(parseInt(p));
-    _DATA.jump(p);
+  const handlePageChange = (e) => {
+    setCurrentPage(e.target.innerText);
   };
 
   useEffect(() => {
@@ -125,34 +113,21 @@ const Products = ({ cat, filters, filtersData, sort }) => {
           className="ImpaginAzione"
           style={{ marginTop: 50, marginBottom: 20 }}
         >
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              marginTop: 10,
-            }}
-          >
-            <Pagination
-              onChange={handlePageChange}
-              count={count}
-              page={currentPage}
-              size="large"
-            />
-          </div>
+          <CustomPagination
+            handlePageChange={handlePageChange}
+            page={currentPage}
+          />
         </div>
       </Container>
     </div>
   );
 };
 
-export default memo(Products);
-
 const Contenitrice = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(12rem, 11rem));
   gap: 1.3rem;
-  /* justify-content: flex-end; */
+  justify-content: flex-end;
 
   @media only screen and (max-width: 1920px) {
     display: grid;
@@ -233,3 +208,5 @@ const Contenitrice = styled.div`
     justify-content: center;
   }
 `;
+
+export default Products;

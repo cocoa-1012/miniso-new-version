@@ -15,10 +15,6 @@ export class Confirm extends Component {
   }
 
   continue = (e) => {
-    if (!this.props.isAuthenticated) {
-      toast.error("Para realizar una compra, Inicia Sesión primero");
-      return;
-    }
     this.setState(
       {
         loading: true,
@@ -82,7 +78,7 @@ export class Confirm extends Component {
 
   render() {
     const {
-      values: { cardname, cardnumber, codigo, date, cuotas },
+      values: { cardname, cardnumber, codigo, date },
     } = this.props;
 
     return (
@@ -93,11 +89,8 @@ export class Confirm extends Component {
             Nombre del titular de la tarjeta: {cardname}
           </li>
           <li class="list-group-item">Numero de Tarjeta: {cardnumber}</li>
-          <li class="list-group-item">Código de Seguridad (CVV): ***</li>
+          <li class="list-group-item">Código de Seguridad (CVV): {codigo}</li>
           <li class="list-group-item">Fecha de Expiración: {date}</li>
-          <li class="list-group-item">
-            Cantidad de cuotas seleccionadas: {cuotas}
-          </li>
           {/*<li class='list-group-item'>Name: {name}</li>
           <li class='list-group-item'>Email: {email} </li>
           <li class='list-group-item'>Phone Number: {phone}</li>
@@ -118,13 +111,13 @@ export class Confirm extends Component {
             <span className="spinner-border spinner-border-lg"></span>
           )}
         </div>
-        <div className="row justify-content-sm-between">
-          <div className="col-12 col-sm-6">
+        <div className="row">
+          <div className="col-6">
             <button className="btn2" onClick={this.back}>
               Atrás
             </button>
           </div>
-          <div className="col-12 col-sm-6 confirmButton d-sm-flex justify-content-sm-end ">
+          <div className="col-6 confirmButton">
             <button
               className="btn1"
               onClick={this.continue}
@@ -139,8 +132,4 @@ export class Confirm extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { isAuthenticated: state.user.isAuthenticated };
-};
-
-export default connect(mapStateToProps, { clearCart })(Confirm);
+export default connect(null, { clearCart })(Confirm);
